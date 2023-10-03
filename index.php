@@ -34,7 +34,7 @@
                                 <a class="btn btn-warning" href="contact-edit.php?ID=XXX">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger" href="contact-delete.php?ID=XXX">
+                                <a class="btn btn-danger"  href="javascript:deleteContact(<?= 10 ?>);">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -46,6 +46,44 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    function deleteContact(id_contact) {
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'contact-delete.php?ID=' + id_contact
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                )
+            }
+        })
+    }
+
+</script>
 
 <!-- footer -->
 <?php include 'partials/_footer.php' ?>
